@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "androidNavigationBar": {
+      "visible": "immersive"
+    },
+    "android": {
+      "package": "com.altair2400.ifamilyplannerexpo",
+
+    }
+  }
+}
