@@ -52,6 +52,7 @@ export default function UserList(props: CreateUserProps) {
 
   
   const familyName = appState.systemSettings.get().familyName
+console.log(props.users);
 
   return (
       <View className={"w-full h-[671]"}>

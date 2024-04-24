@@ -26,7 +26,7 @@ interface taskbordProps {
 
 export default function TaskBoard(props: taskbordProps) {
 
-  console.log(props);
+
   
   const [showAllUsers, setShowAllUsers] = useState<boolean>(false);
   const [createNewEvent, SetCreateNewEvent] = useState(false);
@@ -81,7 +81,6 @@ export default function TaskBoard(props: taskbordProps) {
     setShowAllUsers(true);
   }
 
-  function editEvent(eventId: number) {}
 
   function showView() {
     if (createNewEvent) {
@@ -110,6 +109,7 @@ export default function TaskBoard(props: taskbordProps) {
 
   return (
     <View className={"w-full h-[780]"}>
+     
       <View className={"border-y-green-900 "}>
         {createNewEvent || openEditEvent ? (
           showView()

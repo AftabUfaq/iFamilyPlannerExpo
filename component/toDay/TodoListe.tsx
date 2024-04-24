@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native
 import {ItoDayEvent} from "../../interfeces/ToDayInterface";
 import { Ionicons } from '@expo/vector-icons';
 import {IUser, TodoEvent} from "../../dbConnection/localData/manageData";
-
+import { appState } from "../../dbConnection/localData/manageData";
 
 interface itodoListprops {
     events : TodoEvent[]
@@ -75,8 +75,10 @@ export default function ToDoList  (props :itodoListprops) {
         );
     };
 
+    
     return (
         <View  className={"flex flex-col h-[250] pt-5 "}>
+       
           <ScrollView>
             {toDayState.map((task,index) => (
                 <TaskItem

@@ -82,7 +82,7 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
   }, []);
 
   useEffect(() => {
-    console.log(addToDo);
+   // console.log(addToDo);
   }, [addToDo]);
 
   const onChangeStartDate = (event, selectedDate) => {
@@ -194,26 +194,7 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
     );
 
     console.log(matched?.length);
-    //  let a = null
-    /*   if (matched?.length > 1) {
-            // Ask the user if all involved users' events need to be changed
 
-
-
-            Alert.alert('flere brugere på begivenheden!', 'Skal alle involverede brugeres kalenderbegivenhed ændres?\n\nHvis JA ændres Begivenheden hos alle.\nHvis Nej slettes du fra denne begivenhed og får en ny begivenhed ', [
-                {
-                    text: 'Annuller',
-                    style:"destructive"
-
-                },
-                {
-                    text: 'Nej',
-                    onPress: () => sendData(false),
-                    style: 'default',
-                },
-                {text: 'Ja', onPress: () =>}
-            ])
-        }*/
     sendData(true);
   }
 
@@ -222,6 +203,9 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
     console.log(allDayIsChecked, 'allDayIsChecked');
     
     selectedUsers.map((user) => userIdsList.push(user.id));
+   // console.log(userIdsList);
+    
+   // return 
     if (allDayIsChecked) {
       const startOfDay = new Date(startDate);
       startOfDay.setHours(0, 0, 0, 0);
@@ -237,6 +221,14 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
         selected: userIdsList,
       };
 
+      console.log(event, "EVENT");
+      console.log(props.selectedEvent.isTodoEvent,"isTodoEventisTodoEvent");
+      console.log(userIdsList,"userIdsList");
+      console.log(props.selectedEvent ,"selectedEvent");
+      console.log(addToDo,"addToDo");
+      
+      
+  
       editCalendarEvent(
         event,
         props.selectedEvent.isTodoEvent,
@@ -244,7 +236,7 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
         props.selectedEvent,
         addToDo
       );
-      props.setOpenModal(false);
+     props.setOpenModal(false);
     } else {
       const startDateTime = new Date(startDate);
       startDateTime.setHours(
@@ -265,14 +257,14 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
         isAllDay: false,
         details: details.trim(),
       };
-      editCalendarEvent(
-        something,
-        props.selectedEvent.isTodoEvent,
-        userIdsList,
-        props.selectedEvent,
-        addToDo
-      );
-      props.setOpenModal(false);
+      // editCalendarEvent(
+      //   something,
+      //   props.selectedEvent.isTodoEvent,
+      //   userIdsList,
+      //   props.selectedEvent,
+      //   addToDo
+      // );
+      // props.setOpenModal(false);
     }
   }
 
@@ -305,9 +297,9 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
   }
 
   function deleteCalEvent() {
-    //   deleteCalendarEventApi(props.selectedEvent.userId ===null ? null : props.selectedEvent.userId ,props.selectedEvent.id,true,props.selectedEvent.isTodoEvent,props.selectedEvent.todoEventId)
+     ///  deleteCalendarEventApi(props.selectedEvent.userId ===null ? null : props.selectedEvent.userId ,props.selectedEvent.id,true,props.selectedEvent.isTodoEvent,props.selectedEvent.todoEventId)
   }
-
+  
   return (
     <Modal
       transparent={false}
@@ -577,7 +569,7 @@ const ViewCalendarModal = (props: viewCalendarModalProps) => {
                             "text-center text-2xl font-semibold text-white"
                           }
                         >
-                          {selectedUsers?.length == 0 ? "SLET" : " 22"}
+                          {selectedUsers?.length == 0 ? "SLET" : " 223"}
                         </Text>
                       </View>
                     </TouchableWithoutFeedback>

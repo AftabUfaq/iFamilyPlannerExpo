@@ -27,7 +27,31 @@ export default function ChooseMoreMembers(props:IChooseMembersProps) {
         setUserSelectionState(initializeUserSelectionState);
     }, [props.userList, props.selectedUsers]);
 
+   
+    
     const toggleUserSelection = (user) => {
+        const isCurrentlySelected = userSelectionState.some(selectionState => selectionState.id === user.id && selectionState.isSelected);
+        console.log(isCurrentlySelected , user.isSelected, "isCurrentlySelected");
+        
+        const updatedSelectionState = userSelectionState.map(selectionState => {
+            if (selectionState.id === user.id) {
+                return { ...selectionState, isSelected: !isCurrentlySelected };
+            }
+            return selectionState;
+        });
+       
+        
+        setUserSelectionState(updatedSelectionState);
+        // // Correctly update the parent component's selectedUsers based on the new selection state
+         const updatedSelectedUsersIds = updatedSelectionState.filter(state => state.isSelected).map(state => state.id);
+      
+         
+         const updatedSelectedUsers = props.userList.filter(user => updatedSelectedUsersIds.includes(user.id));
+        // console.log(updatedSelectedUsers);
+        props.setSelectedUsers(updatedSelectedUsers);
+    };
+
+    const toggleUserSelection1 = (user) => {
         const isCurrentlySelected = userSelectionState.some(selectionState => selectionState.id === user.id && selectionState.isSelected);
         const updatedSelectionState = userSelectionState.map(selectionState => {
             if (selectionState.id === user.id) {
@@ -43,6 +67,8 @@ export default function ChooseMoreMembers(props:IChooseMembersProps) {
         props.setSelectedUsers(updatedSelectedUsers);
     };
 
+    console.log(userSelectionState);
+    
     return (
         <Modal
             animationType="slide"
@@ -55,8 +81,11 @@ export default function ChooseMoreMembers(props:IChooseMembersProps) {
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 4 }}>
                 <View style={{ margin: 4, backgroundColor: 'white', borderRadius: 10, padding: 10, shadowOpacity: 0.25, elevation: 5, width: '100%', maxWidth: 600 }}>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                        {userSelectionState.map((user) => (
-                            <View key={user.id} style={{ alignItems: 'center', margin: 8 }}>
+                        {userSelectionState.map((user, index) => { 
+                            console.log(user.id);
+                            
+                            return (
+                            <View key={index} style={{ alignItems: 'center', margin: 8 }}>
                                 <Image
                                     style={{ width: 112, height: 112, borderRadius: 56 }}
                                     source={{ uri: user.avatarString }}
@@ -70,9 +99,9 @@ export default function ChooseMoreMembers(props:IChooseMembersProps) {
                                     {user.isSelected ? 'Fjern' : 'Vælg'}
                                 </Button>
                             </View>
-                        ))}
+                        )})}
                     </View>
-                    <Button onPress={() => props.setOpen(false)} style={{ marginTop: 20, backgroundColor: 'green' }}>
+                    <Button onPress={() => props.setOpen(false)} style={{ marginTop: 20, backgroundColor: 'red' }}>
                         Gem
                     </Button>
                 </View>

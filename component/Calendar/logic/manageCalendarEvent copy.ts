@@ -9,10 +9,11 @@ export function editCalendarEvent(something: {
     id: string;
     title: string
 }, isTodoEvent: boolean, userIdsList: string[], selectedEvent: ICalendarEvents, addToDo: boolean) {
-   
-    console.log(selectedEvent.todoEventId);
+    console.log(selectedEvent, "seleectEvent");
+    console.log(addToDo, "addToDo")
+    console.log(something, "somethingsomething");
     
-  
+    
     if (selectedEvent.todoEventId !== null) {
         const calendarEventIndex = appState.calendarEvents.get().findIndex(cal => cal.id == something.id)
         console.log("in the IFFF");
@@ -62,31 +63,31 @@ export function editCalendarEvent(something: {
                 todoEventId: selectedEvent.todoEventId,
                 userId: null
             }
-//console.log("IN ELsE", newCalendarEvt,appState.calendarEvents.get()[calendarEventIndex], calendarEventIndex);
+///console.log("IN ELsE", newCalendarEvt,appState.calendarEvents.get()[calendarEventIndex]);
 
-            //return
+
             appState.calendarEvents.get()[calendarEventIndex] = newCalendarEvt
-           // console.log("After Update",appState.calendarEvents.get()[calendarEventIndex]);
+            console.log("After Update",appState.calendarEvents.get()[calendarEventIndex]);
             
-           const usersWithCalEvent = appState.users.get().filter(user => user.calendarEvents.includes(selectedEvent.id));
+            const usersHasCalEvent = appState.users.get().filter(user => user.calendarEvents.some(cal => cal == selectedEvent.id))
+            for (let i = 0; i < usersHasCalEvent?.length; i++) {
+                //remove all selected Event from users.and  this insures that only the users who are in the userIdsList has the calendarEvent
 
-           for (const user of usersWithCalEvent) {
-               // Find the index of the user in the original array
-               const userIndex = appState.users.get().indexOf(user);
-           
-               // Update user's calendar events
-               const filteredUserCal = user.calendarEvents.filter(cal => cal !== selectedEvent.id);
-               user.calendarEvents = filteredUserCal;
-           
-               // Update user's todo events if needed
-               if (selectedEvent.todoEventId !== null) {
-                   const filteredUserTodo = user.todoEvents.filter(todo => todo.calendarEventId !== selectedEvent.id);
-                   user.todoEvents = filteredUserTodo;
-               }
-           
-               // Update user in the original array
-               appState.users.get()[userIndex] = user;
-           }
+                const user = appState.users.get().find(user => user.id == usersHasCalEvent[i])
+                if (user !== undefined) {
+                    const userIndex = appState.users.get().find(user => user.id == usersHasCalEvent[i])
+                    const filteredUserCal = user.calendarEvents.filter(cal => cal != selectedEvent.id)
+                    user.calendarEvents.set(filteredUserCal)
+
+                    if (selectedEvent.todoEventId !== null) {
+                        const filteredUserTodo = user.todoEvents.get().filter(todo => todo.calendarEventId != selectedEvent.id)
+                        user.todoEvents.set(filteredUserTodo)
+                    }
+                    appState.users.get()[userIndex] = user
+
+
+                }
+            }
             const todoEvent: TodoEvent = {
                 allUsers: false,
                 calendarEventId: something.id,
@@ -103,11 +104,13 @@ export function editCalendarEvent(something: {
 
 
             for (let i = 0; i < userIdsList?.length; i++) {
-                const user = appState.users.get().find(user => user.id == userIdsList[i])
+                const user = appState.users.get().find(user => user.id = userIdsList[i])
                 const userIndex = appState.users.get().findIndex(user => user.id == userIdsList[i])
                 user.calendarEvents.push(newCalendarEvt.id)
                 if (addToDo) {
                     user.todoEvents.push(todoEvent.id)
+
+
                 }
                 appState.users.get()[userIndex] = user
 
@@ -118,5 +121,5 @@ export function editCalendarEvent(something: {
         }
 
 
-    } 
+    }
 }
